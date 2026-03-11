@@ -9980,8 +9980,8 @@ pre {
         -webkit-tap-highlight-color: transparent !important;
     }
 
-    /* 8. Restore pointer-events so the underlying dark layer can detect the hover/tap */
-    .contact.contact__red {
+ .contact.contact__red,
+    .layer__red .work_history {
         pointer-events: none !important;
     }
     .work_history .heading-mask a{
