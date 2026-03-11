@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project XV.51</title>
+
+<link rel="icon" sizes="32x32" href="assets/images/Untitled-3 copy.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-auth.js"></script>
+
+<style>
+
+body{
+margin:0;
+background:#0d0d0d;
+color:white;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto;
+}
+
+/* HEADER */
+
+.header-xv{
+position:fixed;
+top:0;
+width:100%;
+z-index:100;
+background:linear-gradient(180deg,rgba(13,13,13,0.95),rgba(13,13,13,0));
+backdrop-filter:blur(10px);
+}
+
+.header-inner{
+max-width:1400px;
+margin:auto;
+padding:30px 40px;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+}
+
+.header-title{
+font-size:24px;
+font-weight:bold;
+letter-spacing:2px;
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+}
+
+.auth-btn{
+background:transparent;
+color:#ffd11a;
+border:1px solid #ffd11a;
+padding:10px 24px;
+border-radius:30px;
+cursor:pointer;
+position:absolute;
+right:40px;
+}
+
+.auth-btn:hover{
+background:#ffd11a;
+color:#000;
+}
+
+/* MAIN LAYOUT */
+
+.main-layout {
+width: 100%;
+min-height: 100vh;
+}
+
+/* VIDEO & DATE SECTION */
+
+.video-section {
+display: grid;
+grid-template-columns: 1fr auto 1fr;
+align-items: center;
+width: 100%;
+max-width: 1400px;
+margin: 0 auto;
+padding-top: 140px;
+padding-bottom: 20px;
+}
+
+.date-side {
+padding-left: 40px;
+justify-self: start;
+}
+
+.date-text {
+font-size: 14px;
+color: #ffd11a;
+letter-spacing: 2px;
+margin-bottom: 8px;
+text-transform: uppercase;
+font-weight: 600;
+}
+
+.date-title {
+font-size: 36px;
+font-weight: 800;
+background: linear-gradient(45deg,#fff,#ffd11a);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+margin: 0 0 5px 0;
+}
+
+.date-subtitle {
+font-size: 14px;
+color: #888;
+letter-spacing: 4px;
+margin: 0;
+}
+
+.video-wrapper {
+justify-self: center;
+}
+
+.main-video{
+width:800px;
+max-width: 90vw;
+border-radius:12px;
+display:block;
+box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* UNAUTH TEXT SECTION */
+
+.unauth-text-section{
+display:flex;
+flex-direction:column;
+align-items:center;
+text-align:center;
+padding: 20px 20px 80px 20px;
+}
+
+/* AUTH VIEW */
+
+.auth-view{
+display:none;
+padding:40px 80px 80px 80px;
+max-width: 1400px;
+margin: 0 auto;
+}
+
+/* TIMELINE */
+
+.timeline-item{
+margin-bottom:80px;
+border-left:2px solid #222;
+padding-left:40px;
+position:relative;
+}
+
+.timeline-item::before{
+content:'';
+position:absolute;
+left:-7px;
+top:0;
+width:12px;
+height:12px;
+background:#ffd11a;
+border-radius:50%;
+}
+
+.t-date{
+font-size:28px;
+font-weight:700;
+margin-bottom:30px;
+}
+
+/* MEDIA GRID */
+
+.media-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:30px;
+}
+
+.media-item{
+background:#111;
+border-radius:16px;
+overflow:hidden;
+border:1px solid #222;
+cursor:pointer;
+transition:.3s;
+}
+
+.media-item:hover{
+transform:translateY(-6px);
+border-color:#ffd11a;
+}
+
+.media-box{
+width:100%;
+height:280px;
+object-fit:cover;
+background:#000;
+}
+
+.media-content{
+padding:18px;
+}
+
+.media-title{
+font-size:16px;
+font-weight:600;
+margin-bottom:6px;
+}
+
+.media-type-tag{
+font-size:11px;
+color:#ffd11a;
+letter-spacing:2px;
+}
+
+/* PREVIEW MODAL */
+
+.preview-modal{
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+background:rgba(0,0,0,0.95);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:2000;
+}
+
+.preview-content{
+max-width:90%;
+max-height:90%;
+}
+
+.preview-content img,
+.preview-content video,
+.preview-content iframe{
+max-width:100%;
+max-height:90vh;
+border-radius:12px;
+}
+
+/* ADMIN */
+
+.admin-panel{
+background:#111;
+padding:40px;
+border-radius:20px;
+margin-bottom:60px;
+display:none;
+border:1px solid #222;
+}
+
+.admin-input{
+width:100%;
+padding:15px;
+background:#000;
+border:1px solid #333;
+margin-bottom:15px;
+color:white;
+border-radius:8px;
+}
+
+.btn-primary{
+width:100%;
+padding:15px;
+background:#ffd11a;
+border:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header-xv">
+<div class="header-inner">
+<div class="header-title">XV.51</div>
+<button id="auth-btn" class="auth-btn" onclick="openAuthModal()">Login / Sign Up</button>
+</div>
+</header>
+
+<div class="main-layout">
+
+<!-- Top Persistent View (Video & Date always visible) -->
+<div class="video-section">
+    <div class="date-side">
+        <div id="dynamic-date" class="date-text"></div>
+        <h2 class="date-title">XV.51</h2>
+        <p class="date-subtitle">TIME CAPSULES</p>
+    </div>
+
+    <div class="video-wrapper">
+        <video class="main-video" autoplay muted loop controls>
+            <source src="assets/video/final.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div style="width: 100%;"></div> <!-- Spacer to perfectly center video in Grid -->
+</div>
+
+<!-- Project Description View (Hidden when user logs in) -->
+<div id="unauth-text-section" class="unauth-text-section">
+    <h1 style="margin-top:10px;font-size:40px;letter-spacing:4px">PROJECT XV51</h1>
+    
+    <p style="max-width:600px;margin-top:10px;color:#888;font-size:16px;line-height:1.6;">
+    A digital archive preserving moments, memories and milestones across time.
+    Explore the timeline of experiences captured and shared within Project XV.51.
+    </p>
+    
+    <button class="btn-primary" style="margin-top:25px;width:300px;border-radius:30px;" onclick="openAuthModal()">
+    Sign Up / Login for More Information
+    </button>
+</div>
+
+<!-- Authenticated View (Visible ONLY when user logs in) -->
+<div id="auth-section" class="auth-view">
+
+    <div id="admin-panel" class="admin-panel">
+    <h3 style="color:#ffd11a;margin-top:0">New Entry</h3>
+    <input type="date" id="upload-date" class="admin-input">
+    <input type="text" id="upload-title" class="admin-input" placeholder="Title">
+    <textarea id="upload-desc" class="admin-input" placeholder="Description"></textarea>
+    <input type="file" id="upload-files" class="admin-input" multiple>
+    <input type="text" id="upload-youtube" class="admin-input" placeholder="YouTube URL">
+    <button class="btn-primary" style="border-radius:8px;" onclick="adminUpload()">Publish</button>
+    </div>
+
+    <div id="timeline-container"></div>
+
+</div>
+
+</div>
+
+<div id="preview-modal" class="preview-modal" onclick="closePreview()">
+<div id="preview-content" class="preview-content"></div>
+</div>
+
+<script>
+
+const API_BASE="https://rajeevravulaprojectxv51.onrender.com/api"
+const ADMIN_EMAIL="ravularajeev29@gmail.com"
+
+var firebaseConfig = {
+  apiKey: "AIzaSyDNUB1Btx6TN5iOoS_8eDDpW3gDvJY1um4",
+  authDomain: "rajeev-ravula.firebaseapp.com",
+  projectId: "rajeev-ravula",
+  storageBucket: "rajeev-ravula.firebasestorage.app",
+  messagingSenderId: "394520185500",
+  appId: "1:394520185500:web:207254b8b546d4f6bafb59",
+  measurementId: "G-MR4TK2C8N2"
+};
+
+firebase.initializeApp(firebaseConfig)
+const auth=firebase.auth()
+
+/* SET DYNAMIC DATE ON LOAD */
+document.addEventListener('DOMContentLoaded', () => {
+    const dateElement = document.getElementById("dynamic-date");
+    if (dateElement) {
+        const today = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        dateElement.innerText = today.toLocaleDateString('en-GB', options);
+    }
+});
+
+
+/* AUTH MODAL (DYNAMIC — DOES NOT CHANGE UI) */
+
+let authModal=null
+
+function openAuthModal(){
+
+if(auth.currentUser){
+auth.signOut()
+return
+}
+
+if(!authModal){
+
+authModal=document.createElement("div")
+authModal.style.position="fixed"
+authModal.style.top="0"
+authModal.style.left="0"
+authModal.style.width="100vw"
+authModal.style.height="100vh"
+authModal.style.background="rgba(0,0,0,0.9)"
+authModal.style.display="flex"
+authModal.style.alignItems="center"
+authModal.style.justifyContent="center"
+authModal.style.zIndex="3000"
+
+authModal.innerHTML=`
+
+<div style="background:#111;padding:40px;border-radius:20px;width:380px">
+
+<h3 style="color:#ffd11a;margin-top:0">Secure Login</h3>
+
+<input id="login-email" class="admin-input" placeholder="Email">
+<input id="login-pass" type="password" class="admin-input" placeholder="Password">
+
+<button class="btn-primary" onclick="emailLogin()">Login / Signup</button>
+
+<div style="text-align:center;margin:20px 0;color:#666;font-size:12px">SOCIAL LOGIN</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+<button class="btn-primary" onclick="socialLogin('google')">Google</button>
+<button class="btn-primary" onclick="socialLogin('microsoft')">Microsoft</button>
+<button class="btn-primary" onclick="socialLogin('facebook')">Facebook</button>
+<button class="btn-primary" onclick="socialLogin('twitter')">Twitter</button>
+<button class="btn-primary" onclick="socialLogin('apple')">Apple</button>
+<button class="btn-primary" onclick="socialLogin('yahoo')">Yahoo</button>
+
+</div>
+
+<br>
+
+<button onclick="closeAuth()" style="width:100%; padding:15px; background:#333; color:white; border:none; border-radius:8px; cursor:pointer;">Close</button>
+
+</div>
+`
+
+document.body.appendChild(authModal)
+
+}
+
+authModal.style.display="flex"
+
+}
+
+function closeAuth(){
+authModal.style.display="none"
+}
+
+/* EMAIL LOGIN */
+
+function emailLogin(){
+
+const email=document.getElementById("login-email").value
+const pass=document.getElementById("login-pass").value
+
+auth.signInWithEmailAndPassword(email,pass)
+
+.then(res=>{
+
+if(!res.user.emailVerified){
+
+res.user.sendEmailVerification()
+alert("Verification email sent")
+auth.signOut()
+
+}else{
+
+closeAuth()
+
+}
+
+})
+
+.catch(()=>{
+
+auth.createUserWithEmailAndPassword(email,pass)
+
+.then(res=>{
+
+res.user.sendEmailVerification()
+alert("Account created. Verify email.")
+
+})
+
+})
+
+}
+
+/* SOCIAL LOGIN */
+
+function socialLogin(type){
+
+let provider
+
+if(type==="google")provider=new firebase.auth.GoogleAuthProvider()
+if(type==="facebook")provider=new firebase.auth.FacebookAuthProvider()
+if(type==="twitter")provider=new firebase.auth.TwitterAuthProvider()
+if(type==="microsoft")provider=new firebase.auth.OAuthProvider("microsoft.com")
+if(type==="apple")provider=new firebase.auth.OAuthProvider("apple.com")
+if(type==="yahoo")provider=new firebase.auth.OAuthProvider("yahoo.com")
+
+auth.signInWithPopup(provider)
+.then(()=>closeAuth())
+.catch(e=>alert(e.message))
+
+}
+
+function openPreview(html){
+
+const modal=document.getElementById("preview-modal")
+const content=document.getElementById("preview-content")
+
+content.innerHTML=html
+modal.style.display="flex"
+
+}
+
+function closePreview(){
+document.getElementById("preview-modal").style.display="none"
+}
+
+async function fetchTimeline(){
+
+const res=await fetch(`${API_BASE}/capsules`)
+const data=await res.json()
+
+renderTimeline(data)
+
+}
+
+function renderTimeline(entries){
+
+const container=document.getElementById("timeline-container")
+container.innerHTML=""
+
+const groups=new Map()
+
+entries.forEach(e=>{
+
+if(!groups.has(e.date)) groups.set(e.date,[])
+groups.get(e.date).push(e)
+
+})
+
+groups.forEach((items,date)=>{
+
+const section=document.createElement("div")
+section.className="timeline-item"
+
+const dateText=new Date(date).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})
+
+section.innerHTML=`<div class="t-date">${dateText}</div>`
+
+const grid=document.createElement("div")
+grid.className="media-grid"
+
+items.forEach(item=>{
+
+item.media.forEach(m=>{
+
+const url=m.url.startsWith("http")?m.url:`${API_BASE.replace("/api","")}${m.url}`
+
+let mediaHtml=""
+let preview=""
+
+if(m.type==="video"){
+
+mediaHtml=`<video class="media-box" src="${url}"></video>`
+preview=`<video src="${url}" controls autoplay></video>`
+
+}
+
+else if(m.type==="image"){
+
+mediaHtml=`<img class="media-box" src="${url}">`
+preview=`<img src="${url}">`
+
+}
+
+else if(m.type==="youtube"){
+
+mediaHtml=`<iframe class="media-box" src="${url}"></iframe>`
+preview=`<iframe src="${url}" frameborder="0" allowfullscreen></iframe>`
+
+}
+
+const card=document.createElement("div")
+card.className="media-item"
+
+card.onclick=()=>openPreview(preview)
+
+let deleteBtn=""
+
+if(auth.currentUser && auth.currentUser.email===ADMIN_EMAIL){
+
+deleteBtn=`
+<i class="fas fa-trash"
+style="
+position:absolute;
+top:12px;
+right:12px;
+color:#ff4d4d;
+cursor:pointer;
+font-size:16px;
+z-index:10;
+"
+onclick="event.stopPropagation();deleteMedia('${item._id}','${m.id}')">
+</i>
+`
+
+}
+
+card.innerHTML=`
+
+<div style="position:relative">
+
+${deleteBtn}
+
+${mediaHtml}
+
+</div>
+
+<div class="media-content">
+
+<div class="media-type-tag">${m.type}</div>
+
+<div class="media-title">${item.title}</div>
+
+<div style="font-size:12px;color:#666">${item.description}</div>
+
+</div>
+`
+
+grid.appendChild(card)
+
+})
+
+})
+
+section.appendChild(grid)
+container.appendChild(section)
+
+})
+
+}
+
+async function deleteMedia(capsuleId,fileId){
+
+if(!confirm("Delete this file?")) return
+
+await fetch(`${API_BASE}/capsules/${capsuleId}/file/${fileId}`,{
+method:"DELETE",
+headers:{
+"x-admin-key":"superadmin123"
+}
+})
+
+fetchTimeline()
+
+}
+
+async function adminUpload(){
+
+const formData=new FormData()
+
+formData.append("date",document.getElementById("upload-date").value)
+formData.append("title",document.getElementById("upload-title").value)
+formData.append("description",document.getElementById("upload-desc").value)
+
+const files=document.getElementById("upload-files").files
+
+for(let f of files) formData.append("files",f)
+
+const yt=document.getElementById("upload-youtube").value
+
+if(yt) formData.append("youtubeUrl",yt)
+
+await fetch(`${API_BASE}/capsules`,{
+method:"POST",
+body:formData
+})
+
+fetchTimeline()
+
+}
+
+auth.onAuthStateChanged(user=>{
+
+const unauthSection = document.getElementById("unauth-text-section")
+const authSection = document.getElementById("auth-section")
+const adminPanel = document.getElementById("admin-panel")
+const btn = document.getElementById("auth-btn")
+
+if(user){
+
+// Hide the middle "PROJECT XV51" description text and login button
+unauthSection.style.display="none"
+
+// Show the timeline area
+authSection.style.display="block"
+
+btn.innerText="Logout"
+
+// Only show admin panel if it's the admin email
+adminPanel.style.display=(user.email===ADMIN_EMAIL)?"block":"none"
+
+fetchTimeline()
+
+}
+
+else{
+
+// Show the middle "PROJECT XV51" description text and login button
+unauthSection.style.display="flex"
+
+// Hide the timeline area
+authSection.style.display="none"
+
+btn.innerText="Login / Sign Up"
+
+}
+
+})
+
+</script>
+
+</body>
+</html>
