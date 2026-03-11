@@ -10100,4 +10100,9 @@ position:relative;
 
 
 }
-
+@media only screen and (max-width: 480px) {
+    /* Let clicks pass through the red layer's work section to hit the real links below */
+    .layer__red .work_history {
+        pointer-events: none !important;
+    }
+}
