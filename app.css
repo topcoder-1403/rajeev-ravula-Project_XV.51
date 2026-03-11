@@ -10100,24 +10100,4 @@ position:relative;
 
 
 }
-@media only screen and (max-width:480px){
 
-/* disable interaction on the duplicate masking layer */
-.heading-mask_el__masking{
-    pointer-events:none;
-}
-
-/* keep the real content layer interactive */
-.heading-mask_el__deep{
-    pointer-events:auto;
-}
-
-/* ensure links stay above everything */
-.heading-mask_el__deep a{
-    position:relative;
-    z-index:20;
-    pointer-events:auto;
-    touch-action:manipulation;
-}
-
-}
