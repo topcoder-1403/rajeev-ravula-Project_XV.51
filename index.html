@@ -1384,10 +1384,17 @@
             <li class="social js-social"><a class="social_link social_link__youtube" href="https://www.youtube.com/@rajeevravula" target="_blank" aria-label="Visit my YouTube channel"><img src="assets/icons/ic-ytb.svg" class="svg" alt="YouTube icon"></a></li>
             <li class="social js-social"><a class="social_link social_link__linkedin" href="https://www.linkedin.com/in/rajeev-ravula-b537a52b9/" target="_blank" aria-label="Visit my LinkedIn profile"><img src="assets/icons/ic-in.svg" class="svg" alt="LinkedIn icon"></a></li>
         </ul><button class="footer_sound js-cursor-extend js-footer_sound desc text-uppercase btn-clear"><span class="footer_sound_label">Sound</span> <span class="footer_sound_list"><span class="footer_sound_list_item js-footer_sound_list_item__on">On</span> <span class="footer_sound_list_item js-footer_sound_list_item__off">Off</span></span></button></footer>
-    <audio
-        loop class="js-web-sound" src="assets/mp3/upbeat-rock-funky-groove-118727.mp3"></audio>
-        <script
-            data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-</body>
+      <audio loop class="js-web-sound" src="assets/mp3/upbeat-rock-funky-groove-118727.mp3"></audio>
+    
+    <script>
+        window.addEventListener('click', function() {
+            var audio = document.querySelector('.js-web-sound');
+            if (audio && audio.paused) {
+                audio.play().catch(function(){});
+            }
+        }, { once: true });
+    </script>
 
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+</body>
 </html>
