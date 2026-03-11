@@ -10002,6 +10002,11 @@ position:relative;
 @media only screen and (max-width:480px){
 
 /* ABOUT SECTION */
+    .about_ido .heading-mask {
+        margin-bottom: 2px;
+        padding-top: 5px; /* <--- ADD THIS: Pushes the block down from the line above it */
+        padding-bottom: 10px; /* Optional: Adds a little extra space above the next line */
+    }
 
 .about_ido .row{
     flex-direction:column;
@@ -10009,7 +10014,7 @@ position:relative;
 }
 
 .about_ido h2{
-    font-size:32px;
+    font-size:40px;
     line-height:1.2;
     margin-bottom:10px;
     display:block;
@@ -10034,59 +10039,79 @@ position:relative;
     flex:0 0 100%;
 }
 
-.about_ido .heading-mask{
-    margin-bottom:2px;
-}
 
 
 /* CLIENT LIST SECTION */
+/* CLIENT LIST SECTION */
 
 .client_list .row{
-    flex-direction:column;
-    align-items:flex-start;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .client_list h2{
-    font-size:32px;
-    line-height:1.2;
-    margin-bottom:10px;
+    font-size: 40px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    margin-top: 0; /* Ensures default margins don't push it up */
+     letter-spacing: -1px;
 }
 
 .client_list .desc{
-    font-size:14px;
-    line-height:1.5;
-    margin-bottom:25px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 0px; /* CHANGED: Reduced to 0 to stop double-spacing gaps */
 }
 
 .client_list .offset-lg-2,
 .client_list .offset-sm-1{
-    margin-left:0 !important;
+    margin-left: 0 !important;
 }
 
 .client_list .col-sm-6,
 .client_list .col-sm-4{
-    width:100%;
-    max-width:100%;
-    flex:0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
 }
 
 .client_list .none-break{
-    white-space:normal !important;
+    white-space: nowrap !important;
 }
 
 .client_list .simple-masking{
-    overflow:visible;
-    height:auto;
+    overflow: visible;
+    height: auto;
 }
 
 .client_list .heading-mask{
-    position:relative;
-    height:auto;
-    margin-bottom:25px;
+    position: relative;
+    height: auto;
+    margin-bottom: 0px; /* CHANGED: Reduced to 0 to stop double-spacing gaps */
+    padding-top: 20px; /* INCREASED: Pushes the text safely below the dividing line */
+    padding-bottom: 19px; /* Creates consistent breathing room before the next line starts */
 }
 
 .client_list .heading-mask_el{
+    position: relative;
+}
+
+/* ADD THIS: Hides the duplicate text layer so it doesn't double the height of your gaps */
+
+
+}
+@media only screen and (max-width:480px){
+
+/* disable fake links in masking layer */
+.heading-mask_el__masking a{
+    pointer-events:none;
+}
+
+/* ensure real links stay clickable */
+.heading-mask_el__deep a{
+    pointer-events:auto;
     position:relative;
+    z-index:5;
 }
 
 }
